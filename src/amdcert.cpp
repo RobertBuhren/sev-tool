@@ -19,14 +19,13 @@
 #include "crypto/rsa/rsa_locl.h"    // Needed to access internals of struct rsa_st. rsa_pub_key->n
 #include "crypto/ec/ec_lcl.h"       // Needed to access internals of struct ECDSA_SIG_st
 #include <cstring>                  // memset
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <fstream>
-#include <stdio.h>
 
 #define AMD_CERT_KEY_BYTES_4K   (AMD_CERT_KEY_BITS_4K/8)
 
-static const uint8_t amd_root_key_id[AMD_CERT_ID_SIZE_BYTES] = {
+static constexpr uint8_t amd_root_key_id[AMD_CERT_ID_SIZE_BYTES] = {
         0x1b, 0xb9, 0x87, 0xc3, 0x59, 0x49, 0x46, 0x06,
         0xb1, 0x74, 0x94, 0x56, 0x01, 0xc9, 0xea, 0x5b,
 };

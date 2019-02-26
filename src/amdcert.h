@@ -27,14 +27,10 @@
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 
-#define AMD_CERT_VERSION        0x01
-#define AMD_CERT_ID_SIZE_BYTES    16      // sizeof(AMD_CERT:KeyID0 + AMD_CERT:KeyID1)
-
-enum amd_cert_key_bits
-{
-    AMD_CERT_KEY_BITS_2K = 2048,
-    AMD_CERT_KEY_BITS_4K = 4096,
-};
+constexpr uint8_t  AMD_CERT_VERSION       = 0x01;
+constexpr uint8_t  AMD_CERT_ID_SIZE_BYTES = 16;      // sizeof(AMD_CERT:KeyID0 + AMD_CERT:KeyID1)
+constexpr uint16_t AMD_CERT_KEY_BITS_2K   = 2048;
+constexpr uint16_t AMD_CERT_KEY_BITS_4K   = 4096;
 
 // Public global functions
 static std::string amd_empty = "NULL";

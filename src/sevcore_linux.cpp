@@ -43,7 +43,8 @@ SEVDevice& SEVDevice::get_sev_device(void)
     m_sev_device.mFd = open(DEFAULT_SEV_DEVICE.c_str(), O_RDWR);
     m_sev_device.dep_bits = {{false, false, false, false, false}};
     if (m_sev_device.mFd < 0) {
-        throw std::runtime_error("Can't open " + std::string(DEFAULT_SEV_DEVICE) + "!\n");
+      /* The SEV device is not required for the KDF */
+      return m_sev_device;
     }
     return m_sev_device;
 }

@@ -933,6 +933,20 @@ bool Command::kdf(uint8_t *key_out,       size_t key_out_length,
     return cmd_ret;
 }
 
+
+/* User-callable KDF. Parameter: --K/--kdf */
+int Command::kdf_ext(uint8_t* key_out,const uint8_t *key_in, const std::string label,const uint8_t *context) {
+  unsigned long llen = label.length();
+  const uint8_t* llabel = reinterpret_cast<const uint8_t*>(&label[0]);
+
+  if(context)
+    return kdf(key_out,0x10,key_in,0x30,llabel,llen,context,0x10);
+  else
+    return kdf(key_out,0x10,key_in,0x10,llabel,llen,NULL,0);
+
+
+}
+
 /*
  * Note that this function NEWs/allocates memory for a
  * uint8_t array using OPENSSL_malloc that must be freed

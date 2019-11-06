@@ -135,6 +135,10 @@ public:
     int validate_cert_chain(void);
     int generate_launch_blob(uint32_t policy);
     int package_secret(void);
+
+
+    // Misc commands
+    int kdf_ext(uint8_t* key_out,const uint8_t *key_in, const std::string label,const uint8_t *context);
 };
 
 #endif /* COMMANDS_H */

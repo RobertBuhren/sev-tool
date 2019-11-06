@@ -91,6 +91,7 @@ static struct option long_options[] =
     {"validate_cert_chain",  no_argument,       0, 'u'},
     {"generate_launch_blob", required_argument, 0, 'v'},
     {"package_secret",       no_argument,       0, 'w'},
+    {"kdf",                  required_argument, 0, 'K'},
 
     /* Run tests */
     {"test_all",             no_argument,       0, 'T'},
@@ -223,6 +224,36 @@ int main(int argc, char **argv)
                 Command cmd(output_folder, verbose_flag);
                 cmd_ret = cmd.export_cert_chain();
                 break;
+            }
+            case 'K': {         // KDF
+                optind--;
+                if(argc - optind < 2) {
+                  printf("Error: KDF requires min 2 arguments. Got %d\n",argc - optind);
+                  return false;
+                }
+                Command cmd(output_folder,verbose_flag);
+                aes_128_key out;
+                uint8_t in[0x30];
+                nonce_128 nonce;
+                size_t secret_len = std::string(argv[optind]).length();
+                sev::ascii_hex_bytes_to_binary(in,argv[optind++],secret_len/2);
+                const std::string label = std::string(argv[optind++]);
+                if(argc >= 5) { 
+                  sev::ascii_hex_bytes_to_binary(nonce,argv[optind++],0x10);
+                  cmd_ret = cmd.kdf_ext(out,in,label,nonce);
+                } else
+                  cmd_ret = cmd.kdf_ext(out,in,label,0);
+                for(int i = 0;i< 0x10;i++)
+                  printf("%02x",out[i]);
+
+                cmd_ret = 0;
+                
+
+                break;
+
+                
+                
+
             }
             case 't': {         // CALC_MEASUREMENT
                 optind--;   // Can't use option_index because it doesn't account for '-' flags
